@@ -54,6 +54,8 @@ type Box struct {
 	// focus.
 	focus, blur func()
 
+	focussable bool
+
 	// An optional capture function which receives a key event and returns the
 	// event to be forwarded to the primitive's default input handler (nil if
 	// nothing should be forwarded).
@@ -78,6 +80,7 @@ func NewBox() *Box {
 		borderStyle:     tcell.StyleDefault.Foreground(Styles.BorderColor).Background(Styles.PrimitiveBackgroundColor),
 		titleColor:      Styles.TitleColor,
 		titleAlign:      AlignCenter,
+		focussable:      true,
 	}
 	return b
 }
@@ -466,6 +469,10 @@ func (b *Box) SetBlurFunc(callback func()) *Box {
 
 // Focus is called when this primitive receives focus.
 func (b *Box) Focus(delegate func(p Primitive)) {
+	if !b.focussable {
+		return
+	}
+
 	b.hasFocus = true
 	if b.focus != nil {
 		b.focus()
@@ -483,4 +490,8 @@ func (b *Box) Blur() {
 // HasFocus returns whether or not this primitive has focus.
 func (b *Box) HasFocus() bool {
 	return b.hasFocus
+}
+
+func (b *Box) SetFocusable(f bool) {
+	b.focussable = f
 }
