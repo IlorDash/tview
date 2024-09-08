@@ -127,8 +127,8 @@ func (l *List) SetCurrentItem(index int) *List {
 		l.changed(l.currentItem, item.MainText, item.SecondaryText, item.Shortcut)
 	}
 
-	if l.currentItem != previousItem && l.selected != nil {
-		l.selected(l.currentItem, item.MainText, item.SecondaryText, item.Shortcut)
+	if l.currentItem != previousItem && item.Selected != nil {
+		item.Selected()
 	}
 
 	l.adjustOffset()
