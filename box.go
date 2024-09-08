@@ -492,6 +492,10 @@ func (b *Box) HasFocus() bool {
 	return b.hasFocus
 }
 
+func (b *Box) IsFocusable() bool {
+	return b.focussable
+}
+
 func (b *Box) SetFocusable(f bool) {
 	b.focussable = f
 }

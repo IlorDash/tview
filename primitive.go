@@ -45,6 +45,9 @@ type Primitive interface {
 	// Blur is called by the application when the primitive loses focus.
 	Blur()
 
+	// Returns focusable field
+	IsFocusable() bool
+
 	// If false, primitive won't get focus, when it's Focus() called, and vice-versa
 	SetFocusable(bool)
 
