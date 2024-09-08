@@ -465,6 +465,15 @@ func (i *InputField) Blur() {
 	i.autocompleteList = nil // Hide the autocomplete drop-down.
 }
 
+func (i *InputField) IsFocusable() bool {
+	return i.textArea.focussable || i.Box.focussable
+}
+
+func (i *InputField) SetFocusable(f bool) {
+	i.textArea.focussable = f
+	i.Box.focussable = f
+}
+
 // Draw draws this primitive onto the screen.
 func (i *InputField) Draw(screen tcell.Screen) {
 	i.Box.DrawForSubclass(screen, i)
