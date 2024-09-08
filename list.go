@@ -106,7 +106,8 @@ func NewList() *List {
 // from the back (-1 = last item, -2 = second-to-last item, and so on). Out of
 // range indices are clamped to the beginning/end.
 //
-// Calling this function triggers a "changed" event if the selection changes.
+// Calling this function triggers a "changed" and "selected" event if the
+// selection changes.
 func (l *List) SetCurrentItem(index int) *List {
 	if index < 0 {
 		index = len(l.items) + index
@@ -118,12 +119,17 @@ func (l *List) SetCurrentItem(index int) *List {
 		index = 0
 	}
 
-	if index != l.currentItem && l.changed != nil {
-		item := l.items[index]
-		l.changed(index, item.MainText, item.SecondaryText, item.Shortcut)
+	previousItem := l.currentItem
+	l.currentItem = index
+	item := l.items[l.currentItem]
+
+	if l.currentItem != previousItem && l.changed != nil {
+		l.changed(l.currentItem, item.MainText, item.SecondaryText, item.Shortcut)
 	}
 
-	l.currentItem = index
+	if l.currentItem != previousItem && l.selected != nil {
+		l.selected(l.currentItem, item.MainText, item.SecondaryText, item.Shortcut)
+	}
 
 	l.adjustOffset()
 
