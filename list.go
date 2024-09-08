@@ -693,26 +693,28 @@ func (l *List) MouseHandler() func(action MouseAction, event *tcell.EventMouse, 
 			return false, nil
 		}
 
+		previousItem := l.currentItem
+
 		// Process mouse event.
 		switch action {
-		case MouseLeftClick:
+		case MouseLeftDown:
 			setFocus(l)
 			index := l.indexAtPoint(event.Position())
 			if index != -1 {
-				item := l.items[index]
+				l.currentItem = index
+				item := l.items[l.currentItem]
 				if item.Selected != nil {
 					item.Selected()
 				}
 				if l.selected != nil {
-					l.selected(index, item.MainText, item.SecondaryText, item.Shortcut)
+					l.selected(l.currentItem, item.MainText, item.SecondaryText, item.Shortcut)
 				}
-				if index != l.currentItem {
+				if l.currentItem != previousItem {
 					if l.changed != nil {
-						l.changed(index, item.MainText, item.SecondaryText, item.Shortcut)
+						l.changed(l.currentItem, item.MainText, item.SecondaryText, item.Shortcut)
 					}
 					l.adjustOffset()
 				}
-				l.currentItem = index
 			}
 			consumed = true
 		case MouseScrollUp:
