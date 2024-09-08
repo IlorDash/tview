@@ -449,6 +449,7 @@ func (i *InputField) Focus(delegate func(p Primitive)) {
 		return
 	}
 
+	i.textArea.Focus(delegate)
 	i.Box.Focus(delegate)
 }
 
