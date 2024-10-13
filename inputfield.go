@@ -429,22 +429,6 @@ func (i *InputField) SetFinishedFunc(handler func(key tcell.Key)) FormItem {
 	return i
 }
 
-// SetFocusFunc sets a callback function which is invoked when this primitive
-// receives focus.
-//
-// Set to nil to remove the callback function.
-func (i *InputField) SetFocusFunc(callback func()) {
-	i.textArea.Box.SetFocusFunc(callback)
-}
-
-// SetBlurFunc sets a callback function which is invoked when this primitive
-// loses focus.
-//
-// Set to nil to remove the callback function.
-func (i *InputField) SetBlurFunc(callback func()) {
-	i.textArea.Box.SetBlurFunc(callback)
-}
-
 // Focus is called when this primitive receives focus.
 func (i *InputField) Focus(delegate func(p Primitive)) {
 	// If we're part of a form and this item is disabled, there's nothing the
